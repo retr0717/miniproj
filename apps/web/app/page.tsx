@@ -2,16 +2,16 @@
 
 import { useEffect } from "react";
 import { useSession } from "next-auth/react";
-import { redirect } from "next/navigation";
 import { GetStarted } from "@/components/get-started";
 import { LoadingScreen } from "@/components/loading-screen";
+import { useRouter } from "next/navigation";
 
 export default function HomePage() {
   const { status } = useSession();
-
+  const router = useRouter();
   useEffect(() => {
     if (status === "authenticated") {
-      redirect("/home"); // Redirect to login if unauthenticated
+      router.push("/prompt");
     }
   }, [status]); // Ensure the effect re-runs when `status` changes
 

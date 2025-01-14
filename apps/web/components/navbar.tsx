@@ -12,17 +12,16 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import { useEffect } from "react";
-import { redirect } from "next/navigation";
-import router from "next/router";
+import { redirect, useRouter } from "next/navigation";
 
 export function Navbar() {
   const { data: session, status } = useSession();
-
+  const router = useRouter();
   useEffect(() => {
     if (status === "authenticated") {
-      redirect("/home");
+      router.push("/prompt");
     }
-  }, [status]);
+  }, []);
 
   const handleSignOut = async () => {
     try {
@@ -37,7 +36,7 @@ export function Navbar() {
     <nav className="border-b">
       <div className="flex h-16 items-center px-4 container mx-auto">
         <Link href="/" className="font-bold text-2xl">
-          CTF Platform
+          Webly
         </Link>
 
         <div className="ml-auto flex items-center space-x-4">

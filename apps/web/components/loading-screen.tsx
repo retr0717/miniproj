@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Flag } from "lucide-react";
+import { LoaderIcon } from "lucide-react";
 
 export function LoadingScreen() {
   return (
@@ -15,9 +15,8 @@ export function LoadingScreen() {
           repeatType: "reverse",
         }}
       >
-        <Flag className="h-16 w-16 text-primary" />
+        <LoaderIcon className="h-16 w-16 text-primary" />
       </motion.div>
     </div>
   );
 }
-
