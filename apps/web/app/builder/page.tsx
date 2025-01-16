@@ -1,6 +1,6 @@
-"use client"
+"use client";
 import React, { useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { StepsList } from "@/components/StepsList";
 import { FileExplorer } from "@/components/FileExplorer";
 import { TabView } from "@/components/TabView";
@@ -12,7 +12,8 @@ import { parseXml } from "@/lib/steps-util";
 import { useWebContainer } from "@/hooks/useWebcontainer";
 import { Loader } from "@/components/Loader";
 import { motion } from "framer-motion";
-import { useTheme } from "next-themes"; // Import to manage themes
+import { useTheme } from "next-themes";
+import { useSession } from "next-auth/react";
 
 export default function Builder() {
   const searchParams = useSearchParams();
@@ -28,12 +29,21 @@ export default function Builder() {
   const [loading, setLoading] = useState(false);
   const [templateSet, setTemplateSet] = useState(false);
   const webcontainer = useWebContainer();
+  const { status } = useSession(); // Get session status
+  const router = useRouter();
 
   const [currentStep, setCurrentStep] = useState(1);
   const [activeTab, setActiveTab] = useState<"code" | "preview">("code");
   const [selectedFile, setSelectedFile] = useState<FileItem | null>(null);
   const [steps, setSteps] = useState<Step[]>([]);
   const [files, setFiles] = useState<FileItem[]>([]);
+
+  // Redirect user to login page if not authenticated
+  useEffect(() => {
+    if (status === "unauthenticated") {
+      router.push("/auth/login"); // Redirect if not authenticated
+    }
+  }, [status, router]);
 
   useEffect(() => {
     if (!prompt) return;

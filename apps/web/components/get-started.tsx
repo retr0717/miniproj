@@ -10,16 +10,16 @@ export function GetStarted() {
   const router = useRouter();
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-background to-secondary flex flex-col items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-b from-background to-secondary flex items-center justify-center p-4">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="text-center max-w-3xl"
+        className="text-center max-w-3xl w-full"
       >
         <CodeIcon className="w-16 h-16 mx-auto mb-6 text-primary" />
         <h1 className="text-4xl font-bold mb-6 bg-gradient-to-r from-primary to-green-600 bg-clip-text text-transparent">
-          Welcome to WebBuilder Platform
+          Welcome to Webly
         </h1>
         <div className="space-y-6 text-muted-foreground">
           <p className="text-lg">
@@ -28,7 +28,10 @@ export function GetStarted() {
             one place.
           </p>
 
-          <FeaturesList />
+          {/* Centering the Features List */}
+          <div className="flex justify-center">
+            <FeaturesList />
+          </div>
         </div>
 
         <motion.div

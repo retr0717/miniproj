@@ -22,22 +22,20 @@ export function FeaturesList() {
       description:
         "Work with your team in real-time, with built-in collaboration features.",
     },
-    {
-      title: "Intuitive Interface",
-      description:
-        "A clean, user-friendly interface designed to make web development a breeze.",
-    },
+    // {
+    //   title: "Intuitive Interface",
+    //   description:
+    //     "A clean, user-friendly interface designed to make web development a breeze.",
+    // },
   ];
 
   return (
     <ul className="space-y-4">
       {features.map((feature, index) => (
         <li key={index} className="flex items-start space-x-4">
-          <CheckCircleIcon className="w-6 h-6 text-green-500 flex-shrink-0" />
-          <div>
-            <h3 className="text-xl font-semibold text-primary">
-              {feature.title}
-            </h3>
+          <CheckCircleIcon className="w-6 h-6 text-green-500 flex-shrink-0 mt-1" />
+          <div className="flex flex-col justify-start">
+            <h3 className="text-xl font-semibold text-primary">{feature.title}</h3>
             <p className="text-muted-foreground">{feature.description}</p>
           </div>
         </li>

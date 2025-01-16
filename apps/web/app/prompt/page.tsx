@@ -1,14 +1,23 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Wand2 } from "lucide-react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button"; // Assuming Button component is reusable
+import { useSession } from "next-auth/react"; // Import useSession to manage authentication state
 
 export default function Home() {
   const [prompt, setPrompt] = useState("");
   const router = useRouter(); // Next.js router hook
+  const { status } = useSession(); // Use session to check authentication status
+
+  // Redirect unauthenticated users to the login page
+  useEffect(() => {
+    if (status === "unauthenticated") {
+      router.push("/auth/login");
+    }
+  }, [status, router]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
