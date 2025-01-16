@@ -1,5 +1,4 @@
-"use client";
-
+"use client"
 import React, { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { StepsList } from "@/components/StepsList";
@@ -12,10 +11,15 @@ import axios from "axios";
 import { parseXml } from "@/lib/steps-util";
 import { useWebContainer } from "@/hooks/useWebcontainer";
 import { Loader } from "@/components/Loader";
+import { motion } from "framer-motion";
+import { useTheme } from "next-themes"; // Import to manage themes
 
 export default function Builder() {
   const searchParams = useSearchParams();
   const prompt = searchParams.get("prompt"); // Extract prompt from query params
+
+  const { theme } = useTheme(); // Get the current theme (light or dark)
+  const isDarkMode = theme === "dark"; // Determine if dark mode is active
 
   const [userPrompt, setPrompt] = useState("");
   const [llmMessages, setLlmMessages] = useState<
@@ -193,15 +197,15 @@ export default function Builder() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <header className="bg-gray-800 border-b border-gray-700 px-6 py-4">
-        <h1 className="text-xl font-semibold text-gray-100">Website Builder</h1>
-        <p className="text-sm text-gray-400 mt-1">Prompt: {prompt}</p>
-      </header>
-
+    <div className="min-h-screen bg-gradient-to-b from-background to-secondary flex flex-col px-5">
       <div className="flex-1 overflow-hidden">
         <div className="h-full grid grid-cols-4 gap-6 p-6">
-          <div className="col-span-1 space-y-6 overflow-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="col-span-1 space-y-6 overflow-auto"
+          >
             <StepsList
               steps={steps}
               currentStep={currentStep}
@@ -214,7 +218,7 @@ export default function Builder() {
                   <textarea
                     value={userPrompt}
                     onChange={(e) => setPrompt(e.target.value)}
-                    className="p-2 w-full"
+                    className="p-2 w-full bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none placeholder-gray-500 dark:placeholder-gray-400"
                   />
                   <button
                     onClick={async () => {
@@ -239,22 +243,22 @@ export default function Builder() {
                         })),
                       ]);
                     }}
-                    className="bg-purple-400 px-4"
+                    className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-semibold px-8 rounded-lg transition-colors"
                   >
                     Send
                   </button>
                 </div>
               )}
             </div>
-          </div>
+          </motion.div>
           <div className="col-span-1">
             <FileExplorer files={files} onFileSelect={setSelectedFile} />
           </div>
-          <div className="col-span-2 bg-gray-900 rounded-lg shadow-lg p-4">
+          <div className="col-span-2 rounded-lg p-4 bg-gradient-to-b from-background to-secondary">
             <TabView activeTab={activeTab} onTabChange={setActiveTab} />
             <div className="h-[calc(100%-4rem)]">
               {activeTab === "code" ? (
-                <CodeEditor file={selectedFile} />
+                <CodeEditor file={selectedFile} isDarkMode={isDarkMode} />
               ) : (
                 <PreviewFrame webContainer={webcontainer} files={files} />
               )}
@@ -264,4 +268,4 @@ export default function Builder() {
       </div>
     </div>
   );
-}                         
+}

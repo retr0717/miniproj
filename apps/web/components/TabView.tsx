@@ -13,7 +13,7 @@ export function TabView({ activeTab, onTabChange }: TabViewProps) {
         onClick={() => onTabChange("code")}
         className={`flex items-center gap-2 px-4 py-2 rounded-md transition-colors ${
           activeTab === "code"
-            ? "bg-gray-700 text-gray-100"
+            ? "bg-gray-800 text-gray-100"
             : "text-gray-400 hover:text-gray-200 hover:bg-gray-800"
         }`}
       >

@@ -4,9 +4,10 @@ import { FileItem } from "@/lib/types";
 
 interface CodeEditorProps {
   file: FileItem | null;
+  isDarkMode: boolean; // Prop indicating whether dark mode is active
 }
 
-export function CodeEditor({ file }: CodeEditorProps) {
+export function CodeEditor({ file, isDarkMode }: CodeEditorProps) {
   if (!file) {
     return (
       <div className="h-full flex items-center justify-center text-gray-400">
@@ -15,11 +16,14 @@ export function CodeEditor({ file }: CodeEditorProps) {
     );
   }
 
+  // Set Monaco editor theme based on isDarkMode prop
+  const editorTheme = isDarkMode ? "vs-dark" : "vs";
+
   return (
     <Editor
       height="100%"
       defaultLanguage="typescript"
-      theme="vs-dark"
+      theme={editorTheme} // Dynamically set theme based on isDarkMode prop
       value={file.content || ""}
       options={{
         readOnly: true,
